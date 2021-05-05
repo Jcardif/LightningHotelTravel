@@ -5,8 +5,9 @@ using System.Linq;
 
 namespace LightningHotelTravel.CognitiveModels
 {
-    // Extends the partial FlightBooking class with methods and properties that simplify accessing entities in the luis results
-    public partial class FlightBooking
+    // Extends the partial FlightBooking class with methods and properties that simplify
+    // accessing entities in the luis results
+    public partial class LightningTravelBooking
     {
         public (string From, string Airport) FromEntities
         {
@@ -27,6 +28,8 @@ namespace LightningHotelTravel.CognitiveModels
                 return (toValue, toAirportValue);
             }
         }
+
+        public string HotelCountry => Entities.Country?.FirstOrDefault();
 
         // This value will be a TIMEX. And we are only interested in a Date so grab the first result and drop the Time part.
         // TIMEX is a format that represents DateTime expressions that include some ambiguity. e.g. missing a Year.

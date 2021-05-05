@@ -3,20 +3,22 @@
 //
 // Generated with Bot Builder V4 SDK Template for Visual Studio CoreBot v4.13.1
 
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace LightningHotelTravel.Dialogs
 {
     public class DateResolverDialog : CancelAndHelpDialog
     {
         private const string PromptMsgText = "When would you like to travel?";
-        private const string RepromptMsgText = "I'm sorry, to make your booking please enter a full travel date including Day Month and Year.";
+
+        private const string RepromptMsgText =
+            "I'm sorry, to make your booking please enter a full travel date including Day Month and Year.";
 
         public DateResolverDialog(string id = null)
             : base(id ?? nameof(DateResolverDialog))
@@ -25,53 +27,52 @@ namespace LightningHotelTravel.Dialogs
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 InitialStepAsync,
-                FinalStepAsync,
+                FinalStepAsync
             }));
 
             // The initial child Dialog to run.
             InitialDialogId = nameof(WaterfallDialog);
         }
 
-        private async Task<DialogTurnResult> InitialStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> InitialStepAsync(WaterfallStepContext stepContext,
+            CancellationToken cancellationToken)
         {
-            var timex = (string)stepContext.Options;
+            var timex = (string) stepContext.Options;
 
             var promptMessage = MessageFactory.Text(PromptMsgText, PromptMsgText, InputHints.ExpectingInput);
             var repromptMessage = MessageFactory.Text(RepromptMsgText, RepromptMsgText, InputHints.ExpectingInput);
 
             if (timex == null)
-            {
                 // We were not given any date at all so prompt the user.
                 return await stepContext.PromptAsync(nameof(DateTimePrompt),
                     new PromptOptions
                     {
                         Prompt = promptMessage,
-                        RetryPrompt = repromptMessage,
+                        RetryPrompt = repromptMessage
                     }, cancellationToken);
-            }
 
             // We have a Date we just need to check it is unambiguous.
             var timexProperty = new TimexProperty(timex);
             if (!timexProperty.Types.Contains(Constants.TimexTypes.Definite))
-            {
                 // This is essentially a "reprompt" of the data we were given up front.
                 return await stepContext.PromptAsync(nameof(DateTimePrompt),
                     new PromptOptions
                     {
-                        Prompt = repromptMessage,
+                        Prompt = repromptMessage
                     }, cancellationToken);
-            }
 
-            return await stepContext.NextAsync(new List<DateTimeResolution> { new DateTimeResolution { Timex = timex } }, cancellationToken);
+            return await stepContext.NextAsync(new List<DateTimeResolution> {new() {Timex = timex}}, cancellationToken);
         }
 
-        private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext,
+            CancellationToken cancellationToken)
         {
-            var timex = ((List<DateTimeResolution>)stepContext.Result)[0].Timex;
+            var timex = ((List<DateTimeResolution>) stepContext.Result)[0].Timex;
             return await stepContext.EndDialogAsync(timex, cancellationToken);
         }
 
-        private static Task<bool> DateTimePromptValidator(PromptValidatorContext<IList<DateTimeResolution>> promptContext, CancellationToken cancellationToken)
+        private static Task<bool> DateTimePromptValidator(
+            PromptValidatorContext<IList<DateTimeResolution>> promptContext, CancellationToken cancellationToken)
         {
             if (promptContext.Recognized.Succeeded)
             {

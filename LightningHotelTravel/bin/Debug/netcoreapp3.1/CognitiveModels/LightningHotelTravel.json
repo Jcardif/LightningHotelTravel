@@ -1,0 +1,444 @@
+{
+  "luis_schema_version": "7.0.0",
+  "intents": [
+    {
+      "name": "BookFlight",
+      "features": []
+    },
+    {
+      "name": "BookHotel",
+      "features": []
+    },
+    {
+      "name": "Cancel",
+      "features": []
+    },
+    {
+      "name": "GetWeather",
+      "features": []
+    },
+    {
+      "name": "None",
+      "features": []
+    }
+  ],
+  "entities": [
+    {
+      "name": "Country",
+      "children": [],
+      "roles": [],
+      "features": []
+    }
+  ],
+  "hierarchicals": [],
+  "composites": [
+    {
+      "name": "From",
+      "children": [
+        "Airport"
+      ],
+      "roles": []
+    },
+    {
+      "name": "To",
+      "children": [
+        "Airport"
+      ],
+      "roles": []
+    }
+  ],
+  "closedLists": [
+    {
+      "name": "Airport",
+      "subLists": [
+        {
+          "canonicalForm": "Paris",
+          "list": [
+            "paris",
+            "cdg"
+          ]
+        },
+        {
+          "canonicalForm": "London",
+          "list": [
+            "london",
+            "lhr"
+          ]
+        },
+        {
+          "canonicalForm": "Berlin",
+          "list": [
+            "berlin",
+            "txl"
+          ]
+        },
+        {
+          "canonicalForm": "New York",
+          "list": [
+            "new york",
+            "jfk"
+          ]
+        },
+        {
+          "canonicalForm": "Seattle",
+          "list": [
+            "seattle",
+            "sea"
+          ]
+        }
+      ],
+      "roles": []
+    }
+  ],
+  "prebuiltEntities": [
+    {
+      "name": "datetimeV2",
+      "roles": []
+    }
+  ],
+  "utterances": [
+    {
+      "text": "book a flight",
+      "intent": "BookFlight",
+      "entities": []
+    },
+    {
+      "text": "book a flight from new york",
+      "intent": "BookFlight",
+      "entities": [
+        {
+          "entity": "From",
+          "startPos": 19,
+          "endPos": 26,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "book a flight from seattle",
+      "intent": "BookFlight",
+      "entities": [
+        {
+          "entity": "From",
+          "startPos": 19,
+          "endPos": 25,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "book a hotel in kenya",
+      "intent": "BookHotel",
+      "entities": [
+        {
+          "entity": "Country",
+          "startPos": 16,
+          "endPos": 20,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "book a hotel in kenya on 6th april",
+      "intent": "BookHotel",
+      "entities": [
+        {
+          "entity": "Country",
+          "startPos": 16,
+          "endPos": 20,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "book a hotel in netherlands",
+      "intent": "BookHotel",
+      "entities": [
+        {
+          "entity": "Country",
+          "startPos": 16,
+          "endPos": 26,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "book a hotel in new york",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "book a restaurant",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "book flight from london to paris on feb 14th",
+      "intent": "BookFlight",
+      "entities": [
+        {
+          "entity": "From",
+          "startPos": 17,
+          "endPos": 22,
+          "children": []
+        },
+        {
+          "entity": "To",
+          "startPos": 27,
+          "endPos": 31,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "book flight to berlin on feb 14th",
+      "intent": "BookFlight",
+      "entities": [
+        {
+          "entity": "To",
+          "startPos": 15,
+          "endPos": 20,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "book me a flight from london to paris",
+      "intent": "BookFlight",
+      "entities": [
+        {
+          "entity": "From",
+          "startPos": 22,
+          "endPos": 27,
+          "children": []
+        },
+        {
+          "entity": "To",
+          "startPos": 32,
+          "endPos": 36,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "bye",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel booking",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "create a booking",
+      "intent": "BookHotel",
+      "entities": []
+    },
+    {
+      "text": "create a hote booking in kenya on 30th march",
+      "intent": "BookHotel",
+      "entities": [
+        {
+          "entity": "Country",
+          "startPos": 25,
+          "endPos": 29,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "create a hotel booking",
+      "intent": "BookHotel",
+      "entities": []
+    },
+    {
+      "text": "exit",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "find an airport near me",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "flight to paris",
+      "intent": "BookFlight",
+      "entities": [
+        {
+          "entity": "To",
+          "startPos": 10,
+          "endPos": 14,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "flight to paris from london on feb 14th",
+      "intent": "BookFlight",
+      "entities": [
+        {
+          "entity": "To",
+          "startPos": 10,
+          "endPos": 14,
+          "children": []
+        },
+        {
+          "entity": "From",
+          "startPos": 21,
+          "endPos": 26,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "fly from berlin to paris on may 5th",
+      "intent": "BookFlight",
+      "entities": [
+        {
+          "entity": "From",
+          "startPos": 9,
+          "endPos": 14,
+          "children": []
+        },
+        {
+          "entity": "To",
+          "startPos": 19,
+          "endPos": 23,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "go to paris",
+      "intent": "BookFlight",
+      "entities": [
+        {
+          "entity": "To",
+          "startPos": 6,
+          "endPos": 10,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "going from paris to berlin",
+      "intent": "BookFlight",
+      "entities": [
+        {
+          "entity": "From",
+          "startPos": 11,
+          "endPos": 15,
+          "children": []
+        },
+        {
+          "entity": "To",
+          "startPos": 20,
+          "endPos": 25,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "hotel booking in egypt",
+      "intent": "BookHotel",
+      "entities": [
+        {
+          "entity": "Country",
+          "startPos": 17,
+          "endPos": 21,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "i'd like to rent a car",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "ignore",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "travel from new york to paris",
+      "intent": "BookFlight",
+      "entities": [
+        {
+          "entity": "From",
+          "startPos": 12,
+          "endPos": 19,
+          "children": []
+        },
+        {
+          "entity": "To",
+          "startPos": 24,
+          "endPos": 28,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "travel to new york",
+      "intent": "BookFlight",
+      "entities": [
+        {
+          "entity": "To",
+          "startPos": 10,
+          "endPos": 17,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "travel to paris",
+      "intent": "BookFlight",
+      "entities": [
+        {
+          "entity": "To",
+          "startPos": 10,
+          "endPos": 14,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "what's the forecast for this friday?",
+      "intent": "GetWeather",
+      "entities": []
+    },
+    {
+      "text": "what's the weather like for tomorrow",
+      "intent": "GetWeather",
+      "entities": []
+    },
+    {
+      "text": "what's the weather like in new york",
+      "intent": "GetWeather",
+      "entities": []
+    },
+    {
+      "text": "what's the weather like?",
+      "intent": "GetWeather",
+      "entities": []
+    },
+    {
+      "text": "winter is coming",
+      "intent": "None",
+      "entities": []
+    }
+  ],
+  "versionId": "0.1",
+  "name": "LightningHotelTravel",
+  "desc": "Luis Model for CoreBot",
+  "culture": "en-us",
+  "tokenizerVersion": "1.0.0",
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "phraselists": [],
+  "regex_features": [],
+  "patterns": [],
+  "settings": []
+}

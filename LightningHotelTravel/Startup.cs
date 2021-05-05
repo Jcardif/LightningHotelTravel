@@ -36,8 +36,11 @@ namespace LightningHotelTravel
             // Register LUIS recognizer
             services.AddSingleton<FlightBookingRecognizer>();
 
-            // Register the BookingDialog.
-            services.AddSingleton<BookingDialog>();
+            // Register the Flight BookingDialog.
+            services.AddSingleton<FlightBookingDialog>();
+
+            // Register the Hotel BookingDialog.
+            services.AddSingleton<HotelBookingDialog>();
 
             // The MainDialog that will be run by the bot.
             services.AddSingleton<MainDialog>();
@@ -49,20 +52,14 @@ namespace LightningHotelTravel
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseWebSockets()
                 .UseRouting()
                 .UseAuthorization()
-                .UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllers();
-                });
+                .UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
             // app.UseHttpsRedirection();
         }

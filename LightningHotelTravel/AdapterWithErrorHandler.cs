@@ -3,19 +3,20 @@
 //
 // Generated with Bot Builder V4 SDK Template for Visual Studio CoreBot v4.13.1
 
+using System;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System;
 
 namespace LightningHotelTravel
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
-        public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
+        public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger,
+            ConversationState conversationState = null)
             : base(configuration, logger)
         {
             OnTurnError = async (turnContext, exception) =>
@@ -33,7 +34,6 @@ namespace LightningHotelTravel
                 await turnContext.SendActivityAsync(errorMessage);
 
                 if (conversationState != null)
-                {
                     try
                     {
                         // Delete the conversationState for the current conversation to prevent the
@@ -45,10 +45,10 @@ namespace LightningHotelTravel
                     {
                         logger.LogError(e, $"Exception caught on attempting to Delete ConversationState : {e.Message}");
                     }
-                }
 
                 // Send a trace activity, which will be displayed in the Bot Framework Emulator
-                await turnContext.TraceActivityAsync("OnTurnError Trace", exception.Message, "https://www.botframework.com/schemas/error", "TurnError");
+                await turnContext.TraceActivityAsync("OnTurnError Trace", exception.Message,
+                    "https://www.botframework.com/schemas/error", "TurnError");
             };
         }
     }

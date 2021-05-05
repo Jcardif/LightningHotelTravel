@@ -3,10 +3,10 @@
 //
 // Generated with Bot Builder V4 SDK Template for Visual Studio CoreBot v4.13.1
 
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using System.Threading.Tasks;
 
 namespace LightningHotelTravel.Controllers
 {
@@ -26,7 +26,8 @@ namespace LightningHotelTravel.Controllers
             Bot = bot;
         }
 
-        [HttpPost, HttpGet]
+        [HttpPost]
+        [HttpGet]
         public async Task PostAsync()
         {
             // Delegate the processing of the HTTP POST to the adapter.

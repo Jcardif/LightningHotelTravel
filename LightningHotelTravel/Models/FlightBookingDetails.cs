@@ -4,9 +4,9 @@
 // Generated with Bot Builder V4 SDK Template for Visual Studio CoreBot v4.13.1
 
 
-namespace LightningHotelTravel
+namespace LightningHotelTravel.Models
 {
-    public class BookingDetails
+    public class FlightBookingDetails
     {
         public string Destination { get; set; }
 

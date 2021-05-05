@@ -3,11 +3,11 @@
 //
 // Generated with Bot Builder V4 SDK Template for Visual Studio CoreBot v4.13.1
 
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace LightningHotelTravel.Dialogs
 {
@@ -21,13 +21,11 @@ namespace LightningHotelTravel.Dialogs
         {
         }
 
-        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc,
+            CancellationToken cancellationToken = default)
         {
             var result = await InterruptAsync(innerDc, cancellationToken);
-            if (result != null)
-            {
-                return result;
-            }
+            if (result != null) return result;
 
             return await base.OnContinueDialogAsync(innerDc, cancellationToken);
         }

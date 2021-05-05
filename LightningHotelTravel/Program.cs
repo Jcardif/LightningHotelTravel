@@ -16,16 +16,18 @@ namespace LightningHotelTravel
             CreateHostBuilder(args).Build().Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.ConfigureLogging((logging) =>
+                    webBuilder.ConfigureLogging(logging =>
                     {
                         logging.AddDebug();
                         logging.AddConsole();
                     });
                     webBuilder.UseStartup<Startup>();
                 });
+        }
     }
 }

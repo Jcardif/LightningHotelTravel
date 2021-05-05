@@ -1,11 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Extensions.Configuration;
-using System.Threading;
-using System.Threading.Tasks;
+using LuisPredictionOptions = Microsoft.Bot.Builder.AI.LuisV3.LuisPredictionOptions;
 
 namespace LightningHotelTravel
 {
@@ -15,7 +16,9 @@ namespace LightningHotelTravel
 
         public FlightBookingRecognizer(IConfiguration configuration)
         {
-            var luisIsConfigured = !string.IsNullOrEmpty(configuration["LuisAppId"]) && !string.IsNullOrEmpty(configuration["LuisAPIKey"]) && !string.IsNullOrEmpty(configuration["LuisAPIHostName"]);
+            var luisIsConfigured = !string.IsNullOrEmpty(configuration["LuisAppId"]) &&
+                                   !string.IsNullOrEmpty(configuration["LuisAPIKey"]) &&
+                                   !string.IsNullOrEmpty(configuration["LuisAPIHostName"]);
             if (luisIsConfigured)
             {
                 var luisApplication = new LuisApplication(
@@ -26,9 +29,9 @@ namespace LightningHotelTravel
                 // More details can be found in https://docs.microsoft.com/en-gb/azure/cognitive-services/luis/luis-migration-api-v3
                 var recognizerOptions = new LuisRecognizerOptionsV3(luisApplication)
                 {
-                    PredictionOptions = new Microsoft.Bot.Builder.AI.LuisV3.LuisPredictionOptions
+                    PredictionOptions = new LuisPredictionOptions
                     {
-                        IncludeInstanceData = true,
+                        IncludeInstanceData = true
                     }
                 };
 
@@ -39,11 +42,16 @@ namespace LightningHotelTravel
         // Returns true if luis is configured in the appsettings.json and initialized.
         public virtual bool IsConfigured => _recognizer != null;
 
-        public virtual async Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
-            => await _recognizer.RecognizeAsync(turnContext, cancellationToken);
+        public virtual async Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext,
+            CancellationToken cancellationToken)
+        {
+            return await _recognizer.RecognizeAsync(turnContext, cancellationToken);
+        }
 
         public virtual async Task<T> RecognizeAsync<T>(ITurnContext turnContext, CancellationToken cancellationToken)
             where T : IRecognizerConvert, new()
-            => await _recognizer.RecognizeAsync<T>(turnContext, cancellationToken);
+        {
+            return await _recognizer.RecognizeAsync<T>(turnContext, cancellationToken);
+        }
     }
 }
