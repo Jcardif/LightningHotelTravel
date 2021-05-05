@@ -50,7 +50,6 @@ D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\NuGe
 D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
 D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netstandard1.3\System.Security.Cryptography.ProtectedData.dll
 D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard1.3\System.Security.Cryptography.ProtectedData.dll
-D:\Garage\LightningHotelTravel\LightningHotelTravel\obj\Debug\netcoreapp3.1\LightningHotelTravel.csprojAssemblyReference.cache
 D:\Garage\LightningHotelTravel\LightningHotelTravel\obj\Debug\netcoreapp3.1\LightningHotelTravel.AssemblyInfoInputs.cache
 D:\Garage\LightningHotelTravel\LightningHotelTravel\obj\Debug\netcoreapp3.1\LightningHotelTravel.AssemblyInfo.cs
 D:\Garage\LightningHotelTravel\LightningHotelTravel\obj\Debug\netcoreapp3.1\LightningHotelTravel.csproj.CoreCompileInputs.cache
