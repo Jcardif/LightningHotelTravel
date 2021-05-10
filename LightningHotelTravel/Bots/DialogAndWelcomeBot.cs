@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using LightningHotelTravel.Helpers;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
@@ -33,32 +34,13 @@ namespace LightningHotelTravel.Bots
                 // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
-                    var welcomeCard = CreateAdaptiveCardAttachment();
-                    var response = MessageFactory.Attachment(welcomeCard, ssml: "Welcome to Bot Framework!");
+                    var response = MessageFactory.Text("Welcome to Lightning Hotel Travel!");
+                    
                     await turnContext.SendActivityAsync(response, cancellationToken);
                     await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>("DialogState"),
                         cancellationToken);
                 }
         }
 
-        // Load attachment from embedded resource.
-        private Attachment CreateAdaptiveCardAttachment()
-        {
-            var cardResourcePath = GetType().Assembly.GetManifestResourceNames()
-                .First(name => name.EndsWith("welcomeCard.json"));
-
-            using (var stream = GetType().Assembly.GetManifestResourceStream(cardResourcePath))
-            {
-                using (var reader = new StreamReader(stream))
-                {
-                    var adaptiveCard = reader.ReadToEnd();
-                    return new Attachment
-                    {
-                        ContentType = "application/vnd.microsoft.card.adaptive",
-                        Content = JsonConvert.DeserializeObject(adaptiveCard)
-                    };
-                }
-            }
-        }
     }
 }

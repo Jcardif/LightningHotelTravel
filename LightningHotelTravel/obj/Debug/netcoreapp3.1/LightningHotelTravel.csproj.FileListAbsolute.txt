@@ -65,3 +65,5 @@ D:\Garage\LightningHotelTravel\LightningHotelTravel\obj\Debug\netcoreapp3.1\Ligh
 D:\Garage\LightningHotelTravel\LightningHotelTravel\obj\Debug\netcoreapp3.1\LightningHotelTravel.genruntimeconfig.cache
 D:\Garage\LightningHotelTravel\LightningHotelTravel\obj\Debug\netcoreapp3.1\LightningHotelTravel.csprojAssemblyReference.cache
 D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\CognitiveModels\LightningHotelTravel.json
+D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\Cards\hotelCheckInDateCard.json
+D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\AdaptiveCards.dll

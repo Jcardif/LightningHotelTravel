@@ -31,6 +31,7 @@
     ".NETCoreApp,Version=v3.1": {
       "LightningHotelTravel/1.0.0": {
         "dependencies": {
+          "AdaptiveCards": "2.7.1",
           "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "3.1.1",
           "Microsoft.Bot.Builder.AI.Luis": "4.13.1",
           "Microsoft.Bot.Builder.Dialogs": "4.13.1",
@@ -324,6 +325,22 @@
         },
         "compile": {
           "LightningHotelTravel.dll": {}
+        }
+      },
+      "AdaptiveCards/2.7.1": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.7.0",
+          "Newtonsoft.Json": "12.0.3",
+          "System.Net.Http": "4.3.4"
+        },
+        "runtime": {
+          "lib/netstandard2.0/AdaptiveCards.dll": {
+            "assemblyVersion": "2.7.0.0",
+            "fileVersion": "2.7.2103.29009"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/AdaptiveCards.dll": {}
         }
       },
       "AdaptiveExpressions/4.13.1": {
@@ -3559,6 +3576,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "AdaptiveCards/2.7.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-UZhHAnqs9CCAW01bLvp/4CdguI7NlqqlwoFDMTQ5sQSywAXlIqb1v0lxKCYuS4kIEUVksB2WE3JExcddVDyZ8Q==",
+      "path": "adaptivecards/2.7.1",
+      "hashPath": "adaptivecards.2.7.1.nupkg.sha512"
     },
     "AdaptiveExpressions/4.13.1": {
       "type": "package",

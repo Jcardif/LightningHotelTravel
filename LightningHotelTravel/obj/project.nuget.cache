@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "4tvWLfwUSiVpfOeTpM7KNbAxPUh32nw8sSUXeIPqDQHCkx7fbquJnLkyGfNzv5OhlJRzppveLSHuwXIUFHD8sQ==",
+  "dgSpecHash": "DWXac7LmbHEEKylRnT4kzX/Yrzs4ood/6dqGT8ruHHnI3Tayq4JMcXkXrrR0EL0EWmql08rO4NKYxAiYPFUCcg==",
   "success": true,
   "projectFilePath": "D:\\Garage\\LightningHotelTravel\\LightningHotelTravel\\LightningHotelTravel.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\joshc\\.nuget\\packages\\adaptivecards\\2.7.1\\adaptivecards.2.7.1.nupkg.sha512",
     "C:\\Users\\joshc\\.nuget\\packages\\adaptiveexpressions\\4.13.1\\adaptiveexpressions.4.13.1.nupkg.sha512",
     "C:\\Users\\joshc\\.nuget\\packages\\antlr4.runtime.standard\\4.8.0\\antlr4.runtime.standard.4.8.0.nupkg.sha512",
     "C:\\Users\\joshc\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\3.1.1\\microsoft.aspnetcore.jsonpatch.3.1.1.nupkg.sha512",

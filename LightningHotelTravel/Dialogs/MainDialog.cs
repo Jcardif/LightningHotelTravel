@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using LightningHotelTravel.CognitiveModels;
+using LightningHotelTravel.Helpers;
 using LightningHotelTravel.Models;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -57,13 +58,15 @@ namespace LightningHotelTravel.Dialogs
                 return await stepContext.NextAsync(null, cancellationToken);
             }
 
-            // Use the text provided in FinalStepAsync or the default if it is the first time.
-            var messageText = stepContext.Options?.ToString() ??
-                              "What can I help you with today?\nSay something like \"Book a flight from Paris to Berlin on March 22, 2020\"";
-            
-            var promptMessage = MessageFactory.Text(messageText, messageText, InputHints.ExpectingInput);
-            return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions {Prompt = promptMessage},
-                cancellationToken);
+            var welcomeCard = new AdaptiveCardPicker().CreateAdaptiveCardAttachment(Card.Welcome);
+            var response = MessageFactory.Attachment(welcomeCard, ssml: "Welcome to Bot Framework!");
+
+            var promptOptions = new PromptOptions
+            {
+                Prompt = (Activity)response,
+            };
+
+            return await stepContext.PromptAsync(nameof(TextPrompt),promptOptions, cancellationToken);
         }
 
         private async Task<DialogTurnResult> ActStepAsync(WaterfallStepContext stepContext,
