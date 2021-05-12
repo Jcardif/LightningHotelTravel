@@ -7,6 +7,7 @@
         public string End { get; set; }
         public string Notes { get; set; }
         public int RoomCount { get; set; }
+        public string HotelName { get; set; }
         public string HotelId { get; set; }
         public Bookingcontact BookingContact { get; set; }
     }

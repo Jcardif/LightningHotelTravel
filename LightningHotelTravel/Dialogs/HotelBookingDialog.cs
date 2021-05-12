@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
 using AdaptiveCards;
@@ -25,8 +26,9 @@ namespace LightningHotelTravel.Dialogs
 
         private const string CountryTextPrompt = "CountryTextPrompt";
         private const string HotelTextPrompt = "HotelTextPrompt";
-        private const string StartDateTimePrompt = "StartDateTimePrompt";
+        private const string StartDateTextPrompt = "StartDateTimePrompt";
         private const string EndDateTimePrompt = "EndDateTimePrompt";
+        private const string BookingContactTextPrompt = "BookingContactTextPrompt";
 
         public HotelBookingDialog() : base(nameof(HotelBookingDialog))
         {
@@ -37,13 +39,17 @@ namespace LightningHotelTravel.Dialogs
             AddDialog(new TextPrompt(CountryTextPrompt));
             AddDialog(new TextPrompt(HotelTextPrompt));
             AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
-            AddDialog(new DateTimePrompt(StartDateTimePrompt));
+            AddDialog(new TextPrompt(StartDateTextPrompt));
+            AddDialog(new TextPrompt(EndDateTimePrompt));
+            AddDialog(new TextPrompt(BookingContactTextPrompt));
 
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 CountryStepAsync,
                 HotelStepAsync,
                 TravelDateStartStepAsync,
+                TravelDateEndStepAsync,
+                UserDetailsFormStepAsync,
                 ConfirmStepAsync,
                 FinalStepAsync
             }));
@@ -52,6 +58,7 @@ namespace LightningHotelTravel.Dialogs
             InitialDialogId = nameof(WaterfallDialog);
 
         }
+
 
         private async Task<DialogTurnResult> CountryStepAsync(WaterfallStepContext stepcontext, CancellationToken cancellationtoken)
         {
@@ -77,7 +84,8 @@ namespace LightningHotelTravel.Dialogs
         private async Task<DialogTurnResult> HotelStepAsync(WaterfallStepContext stepcontext, CancellationToken cancellationtoken)
         {
             var hotelBookingDetails = (HotelBookingDetails)stepcontext.Options;
-            if (string.IsNullOrEmpty(hotelBookingDetails.HotelId))
+            hotelBookingDetails.HotelCountry = (string) stepcontext.Result;
+            if (string.IsNullOrEmpty(hotelBookingDetails.HotelName))
             {
                 var hotels = await FetchHotelsAsync(hotelBookingDetails.HotelCountry);
                 hotels.Add("More");
@@ -119,17 +127,99 @@ namespace LightningHotelTravel.Dialogs
                 return res;
             }
 
-            return await stepcontext.NextAsync(hotelBookingDetails.HotelCountry, cancellationtoken);
+            return await stepcontext.NextAsync(hotelBookingDetails.HotelName, cancellationtoken);
         }
+
 
         private async Task<DialogTurnResult> TravelDateStartStepAsync(WaterfallStepContext stepcontext, CancellationToken cancellationtoken)
         {
             var hotelBookingDetails = (HotelBookingDetails)stepcontext.Options;
+            hotelBookingDetails.HotelName = (string)stepcontext.Result;
+
+            var selectedHotel = _hotels.First(h => h.name == hotelBookingDetails.HotelName);
+
+            var images = selectedHotel.images.Take(4).Select(i => new AdaptiveImage(i.url)
+            {
+                Size = AdaptiveImageSize.Stretch,
+                Spacing = AdaptiveSpacing.Padding
+            }).ToList();
+
+            var hotelInfo = new AdaptiveCard(new AdaptiveSchemaVersion(1, 0))
+            {
+                Body = new List<AdaptiveElement>()
+                {
+                    new AdaptiveTextBlock()
+                    {
+                        Text = $"Selected Hotel",
+                        Size = AdaptiveTextSize.Large,
+                        Weight = AdaptiveTextWeight.Bolder
+                    },
+                    new AdaptiveTextBlock()
+                    {
+                        Size = AdaptiveTextSize.Medium,
+                        Text =
+                            $"{selectedHotel.name}\r\r{selectedHotel.address.line1} - {selectedHotel.address.postalCode} \r\r{selectedHotel.address.city} - {selectedHotel.address.countryName}",
+                        Weight = AdaptiveTextWeight.Bolder
+                    },
+                    new AdaptiveTextBlock()
+                    {
+                        Text = selectedHotel.description,
+                        Wrap = true
+                    },
+                    new AdaptiveImageSet()
+                    {
+                        Images = images,
+                    },
+                    new AdaptiveFactSet()
+                    {
+                        Facts = new List<AdaptiveFact>()
+                        {
+                            new AdaptiveFact("Rating", selectedHotel.rating.ToString()),
+                            new AdaptiveFact("No. of available Rooms", selectedHotel.roomCount.ToString()),
+                        }
+                    }
+                }
+            };
+            var resp = (Activity)MessageFactory.Attachment(new Attachment()
+            {
+                ContentType = AdaptiveCard.ContentType,
+                Content = hotelInfo
+            });
+
+            await stepcontext.Context.SendActivityAsync(resp, cancellationtoken);
+
+
             if (string.IsNullOrEmpty(hotelBookingDetails.Start))
             {
-                var hotelCheckInDateCard = new AdaptiveCardPicker().CreateAdaptiveCardAttachment(Card.HotelCheckInDate);
+                
+                var checkInCard= new AdaptiveCardPicker().CreateAdaptiveCardAttachment(Card.HotelCheckInDate);
+
                 var response =
-                    MessageFactory.Attachment(hotelCheckInDateCard, ssml: "When will you check into the Hotel?");
+                    MessageFactory.Attachment(checkInCard, ssml: "When will you check into the Hotel?");
+
+                var promptOptions = new PromptOptions
+                {
+                    Prompt = (Activity)response,
+                };
+
+                var res = await stepcontext.PromptAsync(StartDateTextPrompt, promptOptions, cancellationtoken);
+                return res;
+            }
+
+            return await stepcontext.NextAsync(hotelBookingDetails.Start, cancellationtoken);
+        }
+
+        private async Task<DialogTurnResult> TravelDateEndStepAsync(WaterfallStepContext stepcontext, CancellationToken cancellationtoken)
+        {
+            var hotelBookingDetails = (HotelBookingDetails)stepcontext.Options;
+            hotelBookingDetails.Start = (string)stepcontext.Result;
+
+            if (string.IsNullOrEmpty(hotelBookingDetails.End))
+            {
+                var checkoutCard = new AdaptiveCardPicker().CreateAdaptiveCardAttachment(Card.HotelCheckOutDate);
+
+                var response =
+                    MessageFactory.Attachment(checkoutCard, ssml: "When will you check out of the Hotel?");
 
 
                 var promptOptions = new PromptOptions
@@ -137,16 +227,54 @@ namespace LightningHotelTravel.Dialogs
                     Prompt = (Activity)response,
                 };
 
-                var res = await stepcontext.PromptAsync(StartDateTimePrompt, promptOptions, cancellationtoken);
+                var res = await stepcontext.PromptAsync(EndDateTimePrompt, promptOptions, cancellationtoken);
                 return res;
-
             }
-            return await stepcontext.NextAsync(hotelBookingDetails.HotelCountry, cancellationtoken);
+
+            return await stepcontext.NextAsync(hotelBookingDetails.End, cancellationtoken);
         }
 
-        private Task<DialogTurnResult> ConfirmStepAsync(WaterfallStepContext stepcontext, CancellationToken cancellationtoken)
+        private async Task<DialogTurnResult> UserDetailsFormStepAsync(WaterfallStepContext stepcontext,
+            CancellationToken cancellationtoken)
         {
-            throw new NotImplementedException();
+            var hotelBookingDetails = (HotelBookingDetails)stepcontext.Options;
+            hotelBookingDetails.End = (string)stepcontext.Result;
+
+            if (hotelBookingDetails.BookingContact is null)
+            {
+                var bookingContactCard = new AdaptiveCardPicker().CreateAdaptiveCardAttachment(Card.BookingContact);
+                var response = MessageFactory.Attachment(bookingContactCard);
+                var promptOptions = new PromptOptions()
+                {
+                    Prompt = (Activity)response
+                };
+
+                var res = await stepcontext.PromptAsync(BookingContactTextPrompt, promptOptions, cancellationtoken);
+                return res;
+            }
+
+            return await stepcontext.NextAsync(hotelBookingDetails.BookingContact, cancellationtoken);
+
+        }
+
+
+        private async Task<DialogTurnResult> ConfirmStepAsync(WaterfallStepContext stepcontext, CancellationToken cancellationtoken)
+        {
+            var hotelBookingDetails = (HotelBookingDetails)stepcontext.Options;
+            var bookingContact =
+                JsonConvert.DeserializeObject<Bookingcontact>((string)stepcontext.Result);
+
+            hotelBookingDetails.BookingContact = bookingContact;
+
+            var messageText =
+                $"Please confirm, your booking for: {hotelBookingDetails.HotelName} in" +
+                $" {hotelBookingDetails.HotelCountry} checking in on : {hotelBookingDetails.Start} " +
+                $"and Checking out on : {hotelBookingDetails.End}. Is this correct?";
+
+            var promptMessage = MessageFactory.Text(messageText, messageText, InputHints.ExpectingInput);
+
+            return await stepcontext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions { Prompt = promptMessage },
+                cancellationtoken);
         }
 
         private Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepcontext, CancellationToken cancellationtoken)

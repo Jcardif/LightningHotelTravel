@@ -11,13 +11,17 @@
   "actions": [
     {
       "type": "Action.ShowCard",
-      "title": "Check in Date",
+      "title": "Select Hotel Check in Date",
       "card": {
         "type": "AdaptiveCard",
         "body": [
           {
             "type": "Input.Date",
-            "id": "dueDate"
+            "id": "date"
+          },
+          {
+            "type": "Input.Time",
+            "id": "time"
           }
         ],
         "actions": [

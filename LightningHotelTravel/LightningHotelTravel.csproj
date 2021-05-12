@@ -7,12 +7,18 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Content Remove="Cards\bookingContactCard.json" />
 		<Content Remove="Cards\countriesCard.json" />
+		<Content Remove="Cards\hotelCheckInDateCard.json" />
+		<Content Remove="Cards\hotelCheckOutDateCard.json" />
 		<Content Remove="Cards\welcomeCard.json" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Include="Cards\bookingContactCard.json" />
 		<EmbeddedResource Include="Cards\countriesCard.json" />
+		<EmbeddedResource Include="Cards\hotelCheckInDateCard.json" />
+		<EmbeddedResource Include="Cards\hotelCheckOutDateCard.json" />
 		<EmbeddedResource Include="Cards\welcomeCard.json">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</EmbeddedResource>

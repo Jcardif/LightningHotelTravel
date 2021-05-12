@@ -1,5 +1,6 @@
 D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\appsettings.Development.json
 D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\CognitiveModels\FlightBooking.json
+D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\CognitiveModels\LightningHotelTravel.json
 D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\DeploymentTemplates\new-rg-parameters.json
 D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\DeploymentTemplates\preexisting-rg-parameters.json
 D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\DeploymentTemplates\template-with-new-rg.json
@@ -11,6 +12,7 @@ D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\Ligh
 D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\LightningHotelTravel.runtimeconfig.dev.json
 D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\LightningHotelTravel.dll
 D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\LightningHotelTravel.pdb
+D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\AdaptiveCards.dll
 D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\AdaptiveExpressions.dll
 D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\Antlr4.Runtime.Standard.dll
 D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
@@ -64,6 +66,3 @@ D:\Garage\LightningHotelTravel\LightningHotelTravel\obj\Debug\netcoreapp3.1\Ligh
 D:\Garage\LightningHotelTravel\LightningHotelTravel\obj\Debug\netcoreapp3.1\LightningHotelTravel.pdb
 D:\Garage\LightningHotelTravel\LightningHotelTravel\obj\Debug\netcoreapp3.1\LightningHotelTravel.genruntimeconfig.cache
 D:\Garage\LightningHotelTravel\LightningHotelTravel\obj\Debug\netcoreapp3.1\LightningHotelTravel.csprojAssemblyReference.cache
-D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\CognitiveModels\LightningHotelTravel.json
-D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\Cards\hotelCheckInDateCard.json
-D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\AdaptiveCards.dll

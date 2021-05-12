@@ -1,0 +1,40 @@
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "TextBlock",
+      "size": "Medium",
+      "weight": "Bolder",
+      "text": "Fill out your details"
+    },
+    {
+      "type": "Input.Text",
+      "placeholder": "First Name",
+      "id": "firstNameInput"
+    },
+    {
+      "type": "Input.Text",
+      "placeholder": "Last Name",
+      "id": "lastNameInput"
+    },
+    {
+      "type": "Input.Text",
+      "placeholder": "Email",
+      "id": "emailInput"
+    },
+    {
+      "type": "ActionSet",
+      "actions": [
+        {
+          "type": "Action.Submit",
+          "title": "Submit",
+          "data": {
+            "action": "BookingContactCard"
+          }
+        }
+      ]
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.3"
+}

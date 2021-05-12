@@ -5,9 +5,11 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using LightningHotelTravel.Models;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using Newtonsoft.Json;
 
 namespace LightningHotelTravel.Dialogs
 {
@@ -34,25 +36,50 @@ namespace LightningHotelTravel.Dialogs
         {
             if (innerDc.Context.Activity.Type == ActivityTypes.Message)
             {
-                var text = innerDc.Context.Activity.Text.ToLowerInvariant();
-
-                switch (text)
+                if (!string.IsNullOrEmpty(innerDc.Context.Activity.Text))
                 {
-                    case "help":
-                    case "?":
-                        var helpMessage = MessageFactory.Text(HelpMsgText, HelpMsgText, InputHints.ExpectingInput);
-                        await innerDc.Context.SendActivityAsync(helpMessage, cancellationToken);
-                        return new DialogTurnResult(DialogTurnStatus.Waiting);
+                    var text = innerDc.Context.Activity.Text.ToLowerInvariant();
 
-                    case "cancel":
-                    case "quit":
-                        var cancelMessage = MessageFactory.Text(CancelMsgText, CancelMsgText, InputHints.IgnoringInput);
-                        await innerDc.Context.SendActivityAsync(cancelMessage, cancellationToken);
-                        return await innerDc.CancelAllDialogsAsync(cancellationToken);
+                    switch (text)
+                    {
+                        case "help":
+                        case "?":
+                            var helpMessage = MessageFactory.Text(HelpMsgText, HelpMsgText, InputHints.ExpectingInput);
+                            await innerDc.Context.SendActivityAsync(helpMessage, cancellationToken);
+                            return new DialogTurnResult(DialogTurnStatus.Waiting);
+
+                        case "cancel":
+                        case "quit":
+                            var cancelMessage = MessageFactory.Text(CancelMsgText, CancelMsgText, InputHints.IgnoringInput);
+                            await innerDc.Context.SendActivityAsync(cancelMessage, cancellationToken);
+                            return await innerDc.CancelAllDialogsAsync(cancellationToken);
+                    }
                 }
+
+                if (innerDc.Context.Activity.Value != null &&
+                    innerDc.Context.Activity.Value.ToString().Contains("date"))
+                {
+                    var date = JsonConvert.DeserializeObject<InputDate>(innerDc.Context.Activity.Value.ToString());
+                    innerDc.Context.Activity.Text = $"{date.Date} {date.Time}";
+                    return await innerDc.ContinueDialogAsync(cancellationToken);
+                }
+
+                if (innerDc.Context.Activity.Value != null &&
+                    innerDc.Context.Activity.Value.ToString().Contains("BookingContactCard"))
+                {
+                    innerDc.Context.Activity.Text = innerDc.Context.Activity.Value.ToString();
+                    return await innerDc.ContinueDialogAsync(cancellationToken);
+                }
+
             }
 
             return null;
         }
+    }
+
+    public class InputDate
+    {
+        public string Date { get; set; }
+        public string Time { get; set; }
     }
 }

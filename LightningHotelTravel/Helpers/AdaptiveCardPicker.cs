@@ -35,6 +35,15 @@ namespace LightningHotelTravel.Helpers
                         .First(name => name.EndsWith("hotelCheckInDateCard.json"));
                     break;
 
+                case Card.HotelCheckOutDate:
+                    cardResourcePath = GetType().Assembly.GetManifestResourceNames()
+                        .First(name => name.EndsWith("hotelCheckOutDateCard.json"));
+                    break;
+                case Card.BookingContact:
+                    cardResourcePath = GetType().Assembly.GetManifestResourceNames()
+                        .First(name => name.EndsWith("bookingContactCard.json"));
+                    break;
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(card), card, null);
             }
@@ -52,6 +61,6 @@ namespace LightningHotelTravel.Helpers
 
     public enum Card
     {
-        Welcome, Countries, HotelCheckInDate
+        Welcome, Countries, HotelCheckInDate, HotelCheckOutDate, BookingContact
     }
 }
