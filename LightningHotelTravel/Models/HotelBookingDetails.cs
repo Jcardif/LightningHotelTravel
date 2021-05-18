@@ -1,10 +1,12 @@
-﻿namespace LightningHotelTravel.Models
+﻿using System;
+
+namespace LightningHotelTravel.Models
 {
     public class HotelBookingDetails
     {
         public string HotelCountry { get; set; }
-        public string Start { get; set; }
-        public string End { get; set; }
+        public DateTime? Start { get; set; }
+        public DateTime? End { get; set; }
         public string Notes { get; set; }
         public int RoomCount { get; set; }
         public string HotelName { get; set; }
@@ -18,4 +20,5 @@
         public string LastName { get; set; }
         public string Email { get; set; }
     }
+
 }

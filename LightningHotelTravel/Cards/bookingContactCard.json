@@ -10,17 +10,17 @@
     {
       "type": "Input.Text",
       "placeholder": "First Name",
-      "id": "firstNameInput"
+      "id": "firstName"
     },
     {
       "type": "Input.Text",
       "placeholder": "Last Name",
-      "id": "lastNameInput"
+      "id": "lastName"
     },
     {
       "type": "Input.Text",
       "placeholder": "Email",
-      "id": "emailInput"
+      "id": "email"
     },
     {
       "type": "ActionSet",

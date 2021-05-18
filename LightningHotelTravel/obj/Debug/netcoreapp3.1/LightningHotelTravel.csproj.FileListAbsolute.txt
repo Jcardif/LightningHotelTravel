@@ -1,4 +1,5 @@
 D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\appsettings.Development.json
+D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\Cards\confirmHotelBookingCard.json
 D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\CognitiveModels\FlightBooking.json
 D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\CognitiveModels\LightningHotelTravel.json
 D:\Garage\LightningHotelTravel\LightningHotelTravel\bin\Debug\netcoreapp3.1\DeploymentTemplates\new-rg-parameters.json

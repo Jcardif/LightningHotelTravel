@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.ExceptionServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using AdaptiveCards;
@@ -20,7 +21,18 @@ namespace LightningHotelTravel.Dialogs
 {
     public class HotelBookingDialog : CancelAndHelpDialog
     {
-        private int count = 0;
+        private Dictionary<string, int> count = new Dictionary<string, int>()
+        {
+            {"Netherlands", 0},
+            {"Italy", 0},
+            {"Germany", 0},
+            {"Spain", 0},
+            {"Greece", 0},
+            {"Morocco", 0},
+            {"Austria", 0},
+            {"France", 0},
+            {"Great Britain", 0}
+        };
         private List<Hotel> _hotels = new List<Hotel>();
 
 
@@ -29,6 +41,8 @@ namespace LightningHotelTravel.Dialogs
         private const string StartDateTextPrompt = "StartDateTimePrompt";
         private const string EndDateTimePrompt = "EndDateTimePrompt";
         private const string BookingContactTextPrompt = "BookingContactTextPrompt";
+        private const string ConfirmTextPrompt = "ConfirmTextPropmpt";
+        private const string RoomCountTextPrompt = "RoomCountTextPrompt";
 
         public HotelBookingDialog() : base(nameof(HotelBookingDialog))
         {
@@ -38,9 +52,10 @@ namespace LightningHotelTravel.Dialogs
 
             AddDialog(new TextPrompt(CountryTextPrompt));
             AddDialog(new TextPrompt(HotelTextPrompt));
-            AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
+            AddDialog(new TextPrompt(ConfirmTextPrompt));
             AddDialog(new TextPrompt(StartDateTextPrompt));
             AddDialog(new TextPrompt(EndDateTimePrompt));
+            AddDialog(new TextPrompt(RoomCountTextPrompt));
             AddDialog(new TextPrompt(BookingContactTextPrompt));
 
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
@@ -49,6 +64,7 @@ namespace LightningHotelTravel.Dialogs
                 HotelStepAsync,
                 TravelDateStartStepAsync,
                 TravelDateEndStepAsync,
+                RoomCountStepAsync,
                 UserDetailsFormStepAsync,
                 ConfirmStepAsync,
                 FinalStepAsync
@@ -137,6 +153,7 @@ namespace LightningHotelTravel.Dialogs
             hotelBookingDetails.HotelName = (string)stepcontext.Result;
 
             var selectedHotel = _hotels.First(h => h.name == hotelBookingDetails.HotelName);
+            hotelBookingDetails.HotelId = selectedHotel.id;
 
             var images = selectedHotel.images.Take(4).Select(i => new AdaptiveImage(i.url)
             {
@@ -189,7 +206,7 @@ namespace LightningHotelTravel.Dialogs
             await stepcontext.Context.SendActivityAsync(resp, cancellationtoken);
 
 
-            if (string.IsNullOrEmpty(hotelBookingDetails.Start))
+            if (hotelBookingDetails.Start is null)
             {
                 
                 var checkInCard= new AdaptiveCardPicker().CreateAdaptiveCardAttachment(Card.HotelCheckInDate);
@@ -212,9 +229,9 @@ namespace LightningHotelTravel.Dialogs
         private async Task<DialogTurnResult> TravelDateEndStepAsync(WaterfallStepContext stepcontext, CancellationToken cancellationtoken)
         {
             var hotelBookingDetails = (HotelBookingDetails)stepcontext.Options;
-            hotelBookingDetails.Start = (string)stepcontext.Result;
+            hotelBookingDetails.Start = DateTime.Parse(stepcontext.Result.ToString());
 
-            if (string.IsNullOrEmpty(hotelBookingDetails.End))
+            if (hotelBookingDetails.End is null)
             {
                 var checkoutCard = new AdaptiveCardPicker().CreateAdaptiveCardAttachment(Card.HotelCheckOutDate);
 
@@ -234,11 +251,33 @@ namespace LightningHotelTravel.Dialogs
             return await stepcontext.NextAsync(hotelBookingDetails.End, cancellationtoken);
         }
 
+        private async Task<DialogTurnResult> RoomCountStepAsync(WaterfallStepContext stepcontext,
+            CancellationToken cancellationtoken)
+        {
+            var hotelBookingDetails = (HotelBookingDetails)stepcontext.Options;
+            hotelBookingDetails.End = DateTime.Parse(stepcontext.Result.ToString());
+
+            if (hotelBookingDetails.RoomCount == 0)
+            {
+                var selectedHotel = _hotels.FirstOrDefault(h => h.name == hotelBookingDetails.HotelName);
+                
+                var promptOptions = new PromptOptions()
+                {
+                    Prompt = MessageFactory.Text($"How many rooms are you booking? Rooms available are {selectedHotel.roomCount}")
+                };
+
+                return await stepcontext.PromptAsync(RoomCountTextPrompt, promptOptions, cancellationtoken);
+            }
+
+            return await stepcontext.NextAsync(hotelBookingDetails.RoomCount, cancellationtoken);
+        }
+
+
         private async Task<DialogTurnResult> UserDetailsFormStepAsync(WaterfallStepContext stepcontext,
             CancellationToken cancellationtoken)
         {
             var hotelBookingDetails = (HotelBookingDetails)stepcontext.Options;
-            hotelBookingDetails.End = (string)stepcontext.Result;
+            hotelBookingDetails.RoomCount = Convert.ToInt32(stepcontext.Result);
 
             if (hotelBookingDetails.BookingContact is null)
             {
@@ -265,30 +304,174 @@ namespace LightningHotelTravel.Dialogs
                 JsonConvert.DeserializeObject<Bookingcontact>((string)stepcontext.Result);
 
             hotelBookingDetails.BookingContact = bookingContact;
+            var selectedHotel = _hotels.FirstOrDefault(h => h.name == hotelBookingDetails.HotelName);
 
-            var messageText =
-                $"Please confirm, your booking for: {hotelBookingDetails.HotelName} in" +
-                $" {hotelBookingDetails.HotelCountry} checking in on : {hotelBookingDetails.Start} " +
-                $"and Checking out on : {hotelBookingDetails.End}. Is this correct?";
+            var confirmCard = new AdaptiveCard(new AdaptiveSchemaVersion(1, 0))
+            {
+                Body = new List<AdaptiveElement>()
+                {
+                    new AdaptiveTextBlock()
+                    {
+                        Text = "Confirm your details:",
+                        Wrap = true,
+                        Size = AdaptiveTextSize.Large,
+                        Weight = AdaptiveTextWeight.Bolder
+                    },
+                    new AdaptiveColumnSet()
+                    {
+                        Columns = new List<AdaptiveColumn>()
+                        {
+                            new AdaptiveColumn()
+                            {
+                                Width = "25",
+                                Items = new List<AdaptiveElement>
+                                {
+                                    new AdaptiveImage(selectedHotel?.images.First().url)
+                                }
+                            },
+                            new AdaptiveColumn()
+                            {
+                                Width = "50",
+                                Items = new List<AdaptiveElement>()
+                                {
+                                    new AdaptiveTextBlock()
+                                    {
+                                        Text = hotelBookingDetails.HotelName,
+                                        Wrap = true,
+                                        Size = AdaptiveTextSize.Medium,
+                                        Weight = AdaptiveTextWeight.Bolder
+                                    },
+                                    new AdaptiveTextBlock()
+                                    {
+                                        Text = $"{selectedHotel?.address.city}, {selectedHotel?.address.country}",
+                                        Wrap = true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    new AdaptiveFactSet()
+                    {
+                        Facts = new List<AdaptiveFact>()
+                        {
+                            new AdaptiveFact("Duration of Stay",
+                                $"{hotelBookingDetails.Start.Value.ToLongDateString()} - {hotelBookingDetails.End.Value.ToLongDateString()}"),
+                            new AdaptiveFact("Room Count", $"{hotelBookingDetails.RoomCount}"),
+                            new AdaptiveFact("Notes", $"{hotelBookingDetails.Notes}"),
+                        }
+                    },
+                    new AdaptiveTextBlock("Booked by:")
+                    {
+                        Wrap = true,
+                        Weight = AdaptiveTextWeight.Bolder,
+                        Size = AdaptiveTextSize.Medium
+                    },
+                    new AdaptiveFactSet()
+                    {
+                        Facts = new List<AdaptiveFact>()
+                        {
+                            new AdaptiveFact("Name",
+                                $"{hotelBookingDetails.BookingContact.FirstName} {hotelBookingDetails.BookingContact.LastName}"),
+                            new AdaptiveFact("Email", $"{hotelBookingDetails.BookingContact.Email}")
+                        }
+                    },
+                    new AdaptiveColumnSet()
+                    {
+                        Columns = new List<AdaptiveColumn>()
+                        {
+                            new AdaptiveColumn()
+                            {
+                                Width = "stretch",
+                                Items = new List<AdaptiveElement>()
+                                {
+                                    new AdaptiveActionSet()
+                                    {
+                                        Actions = new List<AdaptiveAction>()
+                                        {
+                                            new AdaptiveSubmitAction()
+                                            {
+                                                Title = "Cancel",
+                                                Data = "Cancel",
+                                                Style = "destructive"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            new AdaptiveColumn()
+                            {
+                                Width = "stretch",
+                                Items = new List<AdaptiveElement>()
+                                {
+                                    new AdaptiveActionSet()
+                                    {
+                                        Actions = new List<AdaptiveAction>()
+                                        {
+                                            new AdaptiveSubmitAction()
+                                            {
+                                                Title = "Confirm",
+                                                Data = "Confirm",
+                                                Style = "positive"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
 
-            var promptMessage = MessageFactory.Text(messageText, messageText, InputHints.ExpectingInput);
+            var response = (Activity)MessageFactory.Attachment(new Attachment()
+            {
+                ContentType = AdaptiveCard.ContentType,
+                Content = confirmCard
+            });
 
-            return await stepcontext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions { Prompt = promptMessage },
-                cancellationtoken);
+            await stepcontext.Context.SendActivityAsync(response, cancellationtoken);
+
+            var promptOptions = new PromptOptions()
+            {
+                Prompt = MessageFactory.Text("")
+            };
+            
+
+            return await stepcontext.PromptAsync(ConfirmTextPrompt, promptOptions, cancellationtoken);
         }
 
-        private Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepcontext, CancellationToken cancellationtoken)
+        private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepcontext, CancellationToken cancellationtoken)
         {
-            throw new NotImplementedException();
+            var bookingDetails = (HotelBookingDetails)stepcontext.Options;
+            if (stepcontext.Result.ToString() != "Confirm")
+                return await stepcontext.EndDialogAsync(bookingDetails, cancellationtoken);
+
+            var client = new HttpClient();
+            var json = JsonConvert.SerializeObject(bookingDetails, Formatting.Indented);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync("https://palbina-bot-api.azurewebsites.net/booking", content,
+                cancellationtoken);
+            if (response.IsSuccessStatusCode)
+            {
+                var activity = MessageFactory.Text("Booking Successful!");
+                await stepcontext.Context.SendActivityAsync(activity, cancellationtoken);
+            }
+            else
+            {
+                var activity = MessageFactory.Text("An error occurred");
+                await stepcontext.Context.SendActivityAsync(activity, cancellationtoken);
+            }
+            return await stepcontext.EndDialogAsync(bookingDetails, cancellationtoken);
+
         }
 
         private async Task<List<string>> FetchHotelsAsync(string countryName)
         {
+            var countryCount = count.FirstOrDefault(c => c.Key == countryName).Value;
             var client = new HttpClient()
             {
                 BaseAddress =
                     new Uri(
-                        $"https://palbina-bot-api.azurewebsites.net/hotel?take=5&skip={count}&searchString={countryName}&orderBy=asc")
+                        $"https://palbina-bot-api.azurewebsites.net/hotel?take=5&skip={countryCount}&searchString={countryName}&orderBy=asc")
             };
 
             var response = await client.GetAsync("");
@@ -297,7 +480,8 @@ namespace LightningHotelTravel.Dialogs
                 var content = await response.Content.ReadAsStringAsync();
                 var hotels = JsonConvert.DeserializeObject<List<Hotel>>(content);
                 _hotels.AddRange(hotels);
-                count += hotels.Count;
+                count.Remove(countryName);
+                count.Add(countryName, countryCount + 1);
                 return hotels.Count == 0
                     ? new List<string> { "No more Hotels found in the selected country" }
                     : hotels.Select(h => h.name).ToList();

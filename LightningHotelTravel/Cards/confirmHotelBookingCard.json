@@ -1,0 +1,123 @@
+{
+  "type": "AdaptiveCard",
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.3",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "Confirm your details:",
+      "wrap": true,
+      "size": "Large",
+      "weight": "Bolder"
+    },
+    {
+      "type": "ColumnSet",
+      "columns": [
+        {
+          "type": "Column",
+          "width": 25,
+          "items": [
+            {
+              "type": "Image",
+              "url": "https://cdn.impala.travel/properties/ckna7qwen00800uo59iq16h3n.jpg"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": 50,
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "Gran Hotel Sardinero",
+              "wrap": true,
+              "size": "Medium",
+              "weight": "Bolder"
+            },
+            {
+              "type": "TextBlock",
+              "text": "Santander, Spain",
+              "wrap": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "FactSet",
+      "facts": [
+        {
+          "title": "Duration of Stay",
+          "value": "May 14 - May 30"
+        },
+        {
+          "title": "Room Count",
+          "value": "3"
+        },
+        {
+          "title": "Notes",
+          "value": "N/A"
+        }
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "text": "Booked by:",
+      "wrap": true,
+      "size": "Medium",
+      "weight": "Bolder"
+    },
+    {
+      "type": "FactSet",
+      "facts": [
+        {
+          "title": "Name",
+          "value": "Josh Cardif"
+        },
+        {
+          "title": "Email",
+          "value": "josh.cardif@outlook.com"
+        }
+      ]
+    },
+    {
+      "type": "ColumnSet",
+      "columns": [
+        {
+          "type": "Column",
+          "width": "stretch",
+          "items": [
+            {
+              "type": "ActionSet",
+              "actions": [
+                {
+                  "type": "Action.Submit",
+                  "title": "Cancel",
+                  "data": "Cancel",
+                  "style": "destructive"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": "stretch",
+          "items": [
+            {
+              "type": "ActionSet",
+              "actions": [
+                {
+                  "type": "Action.Submit",
+                  "title": "Confirm",
+                  "data": "Confirm",
+                  "style": "positive"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

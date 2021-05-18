@@ -102,7 +102,7 @@ namespace LightningHotelTravel.Dialogs
                     var hotelBookingDetails = new HotelBookingDetails()
                     {
                         HotelCountry = luisResult.HotelCountry,
-                        Start = luisResult.TravelDate
+                        Start = luisResult.TravelDate is null ? null : DateTime.Parse(luisResult.TravelDate)
                     };
 
                     return await stepContext.BeginDialogAsync(nameof(HotelBookingDialog), hotelBookingDetails,
