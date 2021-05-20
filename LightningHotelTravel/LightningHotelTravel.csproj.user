@@ -5,6 +5,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <ActiveDebugProfile>CoreBot</ActiveDebugProfile>
-    <ShowAllFiles>true</ShowAllFiles>
+    <ShowAllFiles>false</ShowAllFiles>
+    <NameOfLastUsedPublishProfile>LightningHotelTravel - Web Deploy</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>
