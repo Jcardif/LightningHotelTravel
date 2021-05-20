@@ -62,15 +62,17 @@ namespace LightningHotelTravel.Dialogs
                 return await stepContext.NextAsync(null, cancellationToken);
             }
 
-            var welcomeCard = new AdaptiveCardPicker().CreateAdaptiveCardAttachment(Card.Welcome);
-            var response = MessageFactory.Attachment(welcomeCard, ssml: "Welcome to Bot Framework!");
+            //var welcomeCard = new AdaptiveCardPicker().CreateAdaptiveCardAttachment(Card.Welcome);
+            //var response = MessageFactory.Attachment(welcomeCard, ssml: "Welcome to Bot Framework!");
 
-            var promptOptions = new PromptOptions
-            {
-                Prompt = (Activity)response,
-            };
+            //var promptOptions = new PromptOptions
+            //{
+            //    Prompt = (Activity)response,
+            //};
 
-            return await stepContext.PromptAsync(nameof(TextPrompt),promptOptions, cancellationToken);
+            //return await stepContext.PromptAsync(nameof(TextPrompt),promptOptions, cancellationToken);
+
+            return await stepContext.PromptAsync(nameof(TextPrompt),new PromptOptions(), cancellationToken);
         }
 
         private async Task<DialogTurnResult> ActStepAsync(WaterfallStepContext stepContext,
