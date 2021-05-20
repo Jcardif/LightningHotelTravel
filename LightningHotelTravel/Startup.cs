@@ -46,6 +46,9 @@ namespace LightningHotelTravel
             // Register the Hotel BookingDialog.
             services.AddSingleton<HotelBookingDialog>();
 
+            // Register the Manage BookingDialog.
+            services.AddSingleton<ManageBookingDialog>();
+
             // The MainDialog that will be run by the bot.
             services.AddSingleton<MainDialog>();
 

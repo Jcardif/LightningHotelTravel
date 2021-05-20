@@ -11,6 +11,7 @@
 		<Content Remove="Cards\countriesCard.json" />
 		<Content Remove="Cards\hotelCheckInDateCard.json" />
 		<Content Remove="Cards\hotelCheckOutDateCard.json" />
+		<Content Remove="Cards\updateBookingActionsCard.json" />
 		<Content Remove="Cards\welcomeCard.json" />
 	</ItemGroup>
 
@@ -19,6 +20,7 @@
 		<EmbeddedResource Include="Cards\countriesCard.json" />
 		<EmbeddedResource Include="Cards\hotelCheckInDateCard.json" />
 		<EmbeddedResource Include="Cards\hotelCheckOutDateCard.json" />
+		<EmbeddedResource Include="Cards\updateBookingActionsCard.json" />
 		<EmbeddedResource Include="Cards\welcomeCard.json">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</EmbeddedResource>

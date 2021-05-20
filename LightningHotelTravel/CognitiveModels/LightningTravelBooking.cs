@@ -23,6 +23,7 @@ namespace LightningHotelTravel.CognitiveModels
             BookHotel, 
             Cancel, 
             GetWeather, 
+            ManageBooking, 
             None, 
             Utilities_Help
         };

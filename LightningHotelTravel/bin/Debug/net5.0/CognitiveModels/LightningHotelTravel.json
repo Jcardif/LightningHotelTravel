@@ -18,6 +18,10 @@
       "features": []
     },
     {
+      "name": "ManageBooking",
+      "features": []
+    },
+    {
       "name": "None",
       "features": []
     },
@@ -286,6 +290,11 @@
       "entities": []
     },
     {
+      "text": "cancel hotel booking",
+      "intent": "ManageBooking",
+      "entities": []
+    },
+    {
       "text": "create a booking",
       "intent": "BookHotel",
       "entities": []
@@ -305,6 +314,11 @@
     {
       "text": "create a hotel booking",
       "intent": "BookHotel",
+      "entities": []
+    },
+    {
+      "text": "delete hotel booking",
+      "intent": "ManageBooking",
       "entities": []
     },
     {
@@ -498,6 +512,11 @@
       "entities": []
     },
     {
+      "text": "i'd like to manage a booking",
+      "intent": "ManageBooking",
+      "entities": []
+    },
+    {
       "text": "i'd like to rent a car",
       "intent": "None",
       "entities": []
@@ -510,6 +529,16 @@
     {
       "text": "is there any help",
       "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
+      "text": "manage a booking",
+      "intent": "ManageBooking",
+      "entities": []
+    },
+    {
+      "text": "manage hotel booking",
+      "intent": "ManageBooking",
       "entities": []
     },
     {
@@ -568,6 +597,11 @@
           "children": []
         }
       ]
+    },
+    {
+      "text": "update hotel booking",
+      "intent": "ManageBooking",
+      "entities": []
     },
     {
       "text": "what should i do",

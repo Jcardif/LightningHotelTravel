@@ -4,6 +4,7 @@ namespace LightningHotelTravel.Models
 {
     public class HotelBookingDetails
     {
+        public string id { get; set; }
         public string HotelCountry { get; set; }
         public DateTime? Start { get; set; }
         public DateTime? End { get; set; }
@@ -14,7 +15,7 @@ namespace LightningHotelTravel.Models
         public Bookingcontact BookingContact { get; set; }
     }
 
-    public class Bookingcontact
+    public partial class Bookingcontact
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

@@ -28,7 +28,7 @@ namespace LightningHotelTravel.Dialogs
 
         // Dependency injection uses this constructor to instantiate MainDialog
         public MainDialog(FlightBookingRecognizer luisRecognizer, FlightBookingDialog flightBookingDialog, 
-            HotelBookingDialog hotelBookingDialog,IBotServices services,IConfiguration configuration,ILogger<MainDialog> logger) : base(nameof(MainDialog))
+            HotelBookingDialog hotelBookingDialog,ManageBookingDialog manageBookingDialog,IBotServices services,IConfiguration configuration,ILogger<MainDialog> logger) : base(nameof(MainDialog))
         {
             _luisRecognizer = luisRecognizer;
             Logger = logger;
@@ -36,6 +36,7 @@ namespace LightningHotelTravel.Dialogs
             AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(flightBookingDialog);
             AddDialog(hotelBookingDialog);
+            AddDialog(manageBookingDialog);
             AddDialog(new QnADialog(services, configuration));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
@@ -116,6 +117,9 @@ namespace LightningHotelTravel.Dialogs
 
                 case LightningTravelBooking.Intent.Utilities_Help:
                     return await stepContext.BeginDialogAsync(nameof(QnAMakerDialog), null, cancellationToken);
+
+                case LightningTravelBooking.Intent.ManageBooking:
+                    return await stepContext.BeginDialogAsync(nameof(ManageBookingDialog), null, cancellationToken);
 
                 case LightningTravelBooking.Intent.GetWeather:
                     // We haven't implemented the GetWeatherDialog so we just display a TODO message.
