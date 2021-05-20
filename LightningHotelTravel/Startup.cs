@@ -5,6 +5,7 @@
 
 using LightningHotelTravel.Bots;
 using LightningHotelTravel.Dialogs;
+using LightningHotelTravel.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
@@ -42,11 +43,18 @@ namespace LightningHotelTravel
             // Register the Hotel BookingDialog.
             services.AddSingleton<HotelBookingDialog>();
 
+            // Register the Hotel BookingDialog.
+            services.AddSingleton<HotelBookingDialog>();
+
             // The MainDialog that will be run by the bot.
             services.AddSingleton<MainDialog>();
 
+            // Create the bot services(QnA) as a singleton.
+            services.AddSingleton<IBotServices, BotServices>();
+
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
             services.AddTransient<IBot, DialogAndWelcomeBot<MainDialog>>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

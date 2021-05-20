@@ -20,6 +20,14 @@
     {
       "name": "None",
       "features": []
+    },
+    {
+      "name": "Utilities.Help",
+      "inherits": {
+        "domain_name": "Utilities",
+        "model_name": "Help"
+      },
+      "features": []
     }
   ],
   "entities": [
@@ -98,6 +106,16 @@
   ],
   "utterances": [
     {
+      "text": "all of them",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "any help",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
       "text": "book a flight",
       "intent": "BookFlight",
       "entities": []
@@ -122,6 +140,23 @@
           "entity": "From",
           "startPos": 19,
           "endPos": 25,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "book a hotel at the radison blu",
+      "intent": "BookHotel",
+      "entities": []
+    },
+    {
+      "text": "book a hotel in japan",
+      "intent": "BookHotel",
+      "entities": [
+        {
+          "entity": "Country",
+          "startPos": 16,
+          "endPos": 20,
           "children": []
         }
       ]
@@ -163,8 +198,18 @@
       ]
     },
     {
+      "text": "book a hotel in netherlands on the 20th to 31st of july",
+      "intent": "BookHotel",
+      "entities": []
+    },
+    {
       "text": "book a hotel in new york",
       "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "book a hotel on the 4th to the 20th of june",
+      "intent": "BookHotel",
       "entities": []
     },
     {
@@ -226,6 +271,16 @@
       "entities": []
     },
     {
+      "text": "can you help",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
+      "text": "can you help me",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
       "text": "cancel booking",
       "intent": "Cancel",
       "entities": []
@@ -250,6 +305,11 @@
     {
       "text": "create a hotel booking",
       "intent": "BookHotel",
+      "entities": []
+    },
+    {
+      "text": "do me a favor",
+      "intent": "Utilities.Help",
       "entities": []
     },
     {
@@ -311,6 +371,16 @@
       ]
     },
     {
+      "text": "give me a favor",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
+      "text": "give me some help",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
       "text": "go to paris",
       "intent": "BookFlight",
       "entities": [
@@ -341,6 +411,21 @@
       ]
     },
     {
+      "text": "help",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
+      "text": "hotel",
+      "intent": "BookHotel",
+      "entities": []
+    },
+    {
+      "text": "hotel booking",
+      "intent": "BookHotel",
+      "entities": []
+    },
+    {
       "text": "hotel booking in egypt",
       "intent": "BookHotel",
       "entities": [
@@ -353,6 +438,66 @@
       ]
     },
     {
+      "text": "how can i get it",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
+      "text": "how to do it",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
+      "text": "i don't understand",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
+      "text": "i need help",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
+      "text": "i need some assistance",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
+      "text": "i need some help",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
+      "text": "i want them all",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "i want to all of them",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "i would like to book a hotel",
+      "intent": "BookHotel",
+      "entities": []
+    },
+    {
+      "text": "i would like to book a hotel at hilton",
+      "intent": "BookHotel",
+      "entities": []
+    },
+    {
+      "text": "i would like to book a hotel at hilton on the 4th of may",
+      "intent": "BookHotel",
+      "entities": []
+    },
+    {
+      "text": "i'd like to create a hotel booking",
+      "intent": "BookHotel",
+      "entities": []
+    },
+    {
       "text": "i'd like to rent a car",
       "intent": "None",
       "entities": []
@@ -360,6 +505,26 @@
     {
       "text": "ignore",
       "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "is there any help",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
+      "text": "open help",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
+      "text": "please help",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
+      "text": "some help",
+      "intent": "Utilities.Help",
       "entities": []
     },
     {
@@ -405,6 +570,11 @@
       ]
     },
     {
+      "text": "what should i do",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
       "text": "what's the forecast for this friday?",
       "intent": "GetWeather",
       "entities": []
@@ -422,6 +592,11 @@
     {
       "text": "what's the weather like?",
       "intent": "GetWeather",
+      "entities": []
+    },
+    {
+      "text": "who can help me",
+      "intent": "Utilities.Help",
       "entities": []
     },
     {

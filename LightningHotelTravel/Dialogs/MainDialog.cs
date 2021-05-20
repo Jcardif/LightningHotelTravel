@@ -12,8 +12,10 @@ using LightningHotelTravel.CognitiveModels;
 using LightningHotelTravel.Helpers;
 using LightningHotelTravel.Models;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.QnA.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 
@@ -26,7 +28,7 @@ namespace LightningHotelTravel.Dialogs
 
         // Dependency injection uses this constructor to instantiate MainDialog
         public MainDialog(FlightBookingRecognizer luisRecognizer, FlightBookingDialog flightBookingDialog, 
-            HotelBookingDialog hotelBookingDialog, ILogger<MainDialog> logger) : base(nameof(MainDialog))
+            HotelBookingDialog hotelBookingDialog,IBotServices services,IConfiguration configuration,ILogger<MainDialog> logger) : base(nameof(MainDialog))
         {
             _luisRecognizer = luisRecognizer;
             Logger = logger;
@@ -34,6 +36,7 @@ namespace LightningHotelTravel.Dialogs
             AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(flightBookingDialog);
             AddDialog(hotelBookingDialog);
+            AddDialog(new QnADialog(services, configuration));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 IntroStepAsync,
@@ -43,6 +46,7 @@ namespace LightningHotelTravel.Dialogs
 
             // The initial child Dialog to run.
             InitialDialogId = nameof(WaterfallDialog);
+            var t = Dialogs;
         }
 
         private async Task<DialogTurnResult> IntroStepAsync(WaterfallStepContext stepContext,
@@ -107,6 +111,9 @@ namespace LightningHotelTravel.Dialogs
 
                     return await stepContext.BeginDialogAsync(nameof(HotelBookingDialog), hotelBookingDetails,
                         cancellationToken);
+
+                case LightningTravelBooking.Intent.Utilities_Help:
+                    return await stepContext.BeginDialogAsync(nameof(QnAMakerDialog), null, cancellationToken);
 
                 case LightningTravelBooking.Intent.GetWeather:
                     // We haven't implemented the GetWeatherDialog so we just display a TODO message.
